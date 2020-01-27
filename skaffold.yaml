@@ -1,0 +1,22 @@
+apiVersion: skaffold/v2alpha2
+kind: Config
+metadata:
+  name: zoo-exhibit
+build:
+  tagPolicy:
+    gitCommit: {}
+  local:
+    useBuildkit: true
+  artifacts:
+  - image: exhibit
+    context: .
+    sync:
+      manual:
+      - src: "web/*"
+        dest: "/app"
+      - src: "lib/*"
+        dest: "/app"
+deploy:
+  kubectl:
+    manifests:
+    - kubernetes-manifests/deployment-dev.yaml

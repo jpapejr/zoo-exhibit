@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exhibit-dev
+  labels:
+    app: exhibit-dev
+    version: v1
+    group: zoo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exhibit-dev
+      version: v1
+      group: zoo
+  template:
+    metadata:
+      labels:
+        app: exhibit-dev
+        version: v1
+        group: zoo
+    spec:
+      containers:
+      - name: exhibit-dev
+        image: exhibit
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        # env:
+        #   - name: MODE
+        #     value: "debug"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: exhibit-dev
+spec:
+  selector:
+    app: exhibit-dev
+    group: zoo
+    version: v1
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+    name: http
