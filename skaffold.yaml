@@ -5,17 +5,23 @@ metadata:
 build:
   tagPolicy:
     gitCommit: {}
-  local:
-    useBuildkit: true
+  # local:
+  #   useBuildkit: true
   artifacts:
   - image: exhibit
-    context: .
+    # context: .
+    kaniko:
+      cache: {}
     sync:
       manual:
       - src: "web/*"
         dest: "/app"
       - src: "lib/*"
         dest: "/app"
+  cluster:
+    dockerConfig:
+      path: /root/.docker/config.json
+    # pullSecretName: default-us-icr-io
 deploy:
   kubectl:
     manifests:
