@@ -1,0 +1,44 @@
+version: v1beta9
+images:
+  app:
+    image: jpapejr/exhibit
+    preferSyncOverRebuild: true
+    injectRestartHelper: true
+    # appendDockerfileInstructions:
+    # - USER root
+    build:
+      custom:
+        command: ./devspace_build.sh
+deployments:
+- name: zoo-exhibit
+  helm:
+    componentChart: true
+    values:
+      containers:
+      - image: jpapejr/exhibit
+      service:
+        ports:
+        - port: 8081
+dev:
+  ports:
+  - imageName: app
+    forward:
+    - port: 8081
+      remotePort: 8081
+  open:
+  - url: http://localhost:8081
+  sync:
+  - imageName: app
+    excludePaths:
+    - .git/
+    uploadExcludePaths:
+    - devspace.yaml
+    localSubPath: ./build
+    containerPath: /usr/share/nginx/html
+profiles:
+- name: production
+  patches:
+  - op: remove
+    path: images.app.injectRestartHelper
+  - op: remove
+    path: images.app.appendDockerfileInstructions

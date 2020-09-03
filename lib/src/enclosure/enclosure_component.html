@@ -1,0 +1,18 @@
+<section *ngFor="let animal of animals" id="{{animal.id}}">
+  <div class="mdc-card demo-size">
+    <div class="mdc-card__media mdc-card__media--16-9 demo-card__media"></div>
+    <div class="demo-card__primary">
+      <h2 class="demo-card__title">{{animal.name}}</h2>
+    </div>
+    <div class="demo-card__secondary">
+      
+    </div>
+    <div class="mdc-card__actions">
+      <div class="mdc-card__action-icons">
+        <material-button icon (click)="observe(animal)">
+          <material-icon icon="visibility"></material-icon>
+        </material-button>
+      </div>
+    </div>
+  </div>
+</section>
